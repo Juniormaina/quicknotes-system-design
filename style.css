@@ -1,0 +1,97 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background: #f7f5f0;
+  color: #1f1f1f;
+}
+
+header,
+main {
+  width: min(900px, 92%);
+  margin: 0 auto;
+}
+
+header {
+  padding: 3rem 0 1rem;
+}
+
+main {
+  padding-bottom: 3rem;
+}
+
+button {
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+#status {
+  padding: 0.75rem;
+  border-radius: 8px;
+}
+
+#status.success {
+  background: #e8f5e9;
+  color: #216e39;
+}
+
+#status.error {
+  background: #ffebee;
+  color: #b42318;
+}
+
+form {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1rem;
+  background: white;
+  border-radius: 12px;
+}
+
+form div {
+  display: grid;
+  gap: 0.4rem;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font: inherit;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+#notes-list {
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+#notes-list li {
+  padding: 1rem;
+  background: white;
+  border-radius: 12px;
+}
+
+#notes-list h2 {
+  margin-top: 0;
+}

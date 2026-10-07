@@ -39,8 +39,16 @@ function renderNotes(list) {
     const body = document.createElement("p");
     body.textContent = note.body;
 
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "Delete";
+    deleteButton.dataset.noteId = note.id;
+
+    deleteButton.addEventListener("click", () => deleteNote(note.id));
+
     listItem.appendChild(title);
     listItem.appendChild(body);
+    listItem.appendChild(deleteButton);
 
     notesList.appendChild(listItem);
   });
@@ -71,6 +79,38 @@ async function loadNotes() {
     console.error(error);
   } finally {
     loadButton.disabled = false;
+  }
+}
+
+async function deleteNote(noteId) {
+  const deleteButton = [...notesList.querySelectorAll("button")].find(
+    (button) => button.dataset.noteId === String(noteId)
+  );
+
+  if (deleteButton) {
+    deleteButton.disabled = true;
+    deleteButton.textContent = "Deleting...";
+  }
+
+  status.textContent = "Deleting note...";
+  status.className = "";
+
+  try {
+    await request(`${API_URL}/${noteId}`, {
+      method: "DELETE",
+    });
+
+    // JSONPlaceholder simulates DELETE but does not permanently change its data.
+    // We remove the note from our local page so the UI reflects the user's action.
+    notes = notes.filter((note) => note.id !== noteId);
+    renderNotes(notes);
+
+    status.textContent = `Note deleted (id ${noteId}).`;
+    status.className = "success";
+  } catch (error) {
+    status.textContent = "Unable to delete the note. Please try again.";
+    status.className = "error";
+    console.error(error);
   }
 }
 
@@ -119,7 +159,7 @@ async function createNote(event) {
     renderNotes(notes);
     noteForm.reset();
 
-    status.textContent = `Note created with ID ${createdNote.id}.`;
+    status.textContent = `Note created (status 201, id ${createdNote.id}).`;
     status.className = "success";
   } catch (error) {
     status.textContent = "Unable to create note. Please try again.";
